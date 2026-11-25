@@ -1,0 +1,32 @@
+$ wheredidit add demo/files
+indexed 7, unchanged 0, failed 0, removed 0
+
+$ wheredidit find "the file that had a comparison of internet company prices"
+1. doc_0417.pdf   (modified 2026-11-25)
+   /home/sandbox/wheredidit/demo/files/doc_0417.pdf
+   Why: matched 2 of 4 words (comparison, internet) in page 1
+   "Broadband provider comparison for the office Provider A: 200 GB at 450 EGP per month Provider B: unlimited at 600 EGP per month Provider C: 100 GB at 300 EGP pe"
+
+$ wheredidit find "the picture of the whiteboard with the SVM formula"
+No match. Nothing in the indexed files fits that description (try other words; the tool matches words and word forms, not full meaning).
+
+$ wheredidit find "table of student grades"
+1. Book1.xlsx   (modified 2026-11-25)
+   /home/sandbox/wheredidit/demo/files/Book1.xlsx
+   Why: matched 2 of 3 words (student, grade) in sheet Machine Learning row 1
+   "Student | Marks | Result"
+
+$ wheredidit find "عايز الملف بتاع زيادة سعر الاشتراك"
+1. ملاحظات.md   (modified 2026-11-25)
+   /home/sandbox/wheredidit/demo/files/ملاحظات.md
+   Why: matched 3 of 4 words (زياده, سعر, اشتراك) in part 1
+   "اجتماع مع العميل: اتفقنا على زيادة سعر الاشتراك الشهري إلى 250 جنيه. العقد هيتجدد في شهر مارس."
+
+$ wheredidit find "electricity bill amount"
+1. scan.pdf   (modified 2026-11-25)
+   /home/sandbox/wheredidit/demo/files/scan.pdf
+   Why: matched 2 of 3 words (electricity, invoice) in page 1 (OCR)
+   "Electricity bill October total 1840 EGP"
+
+$ wheredidit find "quantum chromodynamics"
+No match. Nothing in the indexed files fits that description (try other words; the tool matches words and word forms, not full meaning).
