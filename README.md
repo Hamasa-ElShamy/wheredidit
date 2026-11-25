@@ -55,6 +55,10 @@ Date words work in the question: `last week`, `yesterday`, `last month`, `امب
 - Audio is not supported. There is no window app yet, only the command line.
 - Files are re-read when size or modified time changes. `watch` polls; it does not use operating system events.
 
+## Similar tools (honest comparison)
+
+Desktop search tools exist: [DocFetcher](https://docfetcher.sourceforge.io/) and [Recoll](https://www.recoll.org/) search file contents, and AI file finders such as [semsearch](https://github.com/a303990366/semsearch) search by describing the file using embeddings. Those can understand meaning; WhereDidItGo cannot. Its differences are a small install with no model download, Arabic and Egyptian-dialect handling, date phrases, and a plain 'why this matched' line.
+
 ## Technical notes
 
 [ARCHITECTURE.md](ARCHITECTURE.md), in Arabic and English. Tests: 9 pytest tests (`pytest`), including OCR of an image and a scanned PDF.
