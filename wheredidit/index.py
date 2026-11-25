@@ -104,7 +104,7 @@ class Index:
             hit = [t for t in terms if t in pt]
             if not hit:
                 continue
-            if len(terms) >= 3 and len(hit) < 2:
+            if len(terms) >= 4 and len(hit) < 2:
                 continue
             cov = len(hit) / len(terms)
             score = cov * 10 + (-bm) * 0.3

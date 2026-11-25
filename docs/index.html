@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WhereDidItGo: Find a file by what was inside it, not by its name.</title><meta name="description" content="Local content search for your files (PDF, Word, Excel, PowerPoint, photos, scans), in Arabic and English.">
+<meta property="og:title" content="WhereDidItGo"><meta property="og:description" content="Local content search for your files (PDF, Word, Excel, PowerPoint, photos, scans), in Arabic and English.">
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.65 var(--body);background:var(--bg);color:var(--fg)}
+.wrap{max-width:900px;margin:0 auto;padding:0 22px}
+a{color:var(--acc)}code,pre{font-family:ui-monospace,Menlo,Consolas,monospace}
+pre{background:var(--code);color:var(--codefg);border:1px solid var(--line);border-radius:var(--r);padding:16px;overflow:auto;font-size:.86rem;line-height:1.5}
+.btn{display:inline-block;padding:11px 22px;border-radius:var(--r);background:var(--acc);color:var(--accfg);font-weight:600;text-decoration:none;margin:4px 8px 4px 0}
+.btn.alt{background:transparent;color:var(--fg);border:1px solid var(--line)}
+section{padding:26px 0}h2{font-family:var(--head);font-size:1.5rem;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.grid .card{margin:0}
+.mut{color:var(--mut)}.rtl{direction:rtl;text-align:right}
+img.shot{max-width:100%;border-radius:var(--r);border:1px solid var(--line);margin:8px 0}
+.warn{border-left:5px solid var(--warn)}
+.os{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.os h3{margin:0 0 6px;font-size:1rem}.os pre{margin:6px 0}
+footer{padding:44px 0 60px;color:var(--mut);text-align:center;font-size:.9rem}
+footer img{border-radius:50%;border:2px solid var(--line);display:block;margin:0 auto 10px}
+.badge{display:inline-block;font-size:.72rem;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--mut);margin-left:6px;vertical-align:middle}
+.ok{color:#2e9e5b}.no{color:#c0392b}
+
+:root{--bg:#fff7ed;--fg:#2a1b0e;--mut:#8a6a4a;--card:#ffffff;--line:#f1d9bd;--acc:#ea580c;--accfg:#fff;--code:#2a1b0e;--codefg:#ffe9d2;--warn:#c2410c;--r:22px;--body:system-ui,-apple-system,Segoe UI,sans-serif;--head:system-ui,sans-serif}
+header.hero{padding:84px 0 56px;text-align:center;background:linear-gradient(180deg,#ffedd5,#fff7ed)}
+h1{font-size:3.4rem;margin:0 0 8px;color:#ea580c}.tag{font-size:1.25rem;color:#6b4a2b;max-width:620px;margin:0 auto 22px}
+.hero:after{content:"\1F50D  search by memory";display:inline-block;margin-top:10px;padding:10px 22px;border:2px solid #ea580c;border-radius:99px;color:#ea580c;background:#fff}
+</style></head><body>
+<header class="hero"><div class="wrap"><h1>WhereDidItGo</h1><p class="tag">Find a file by what was inside it, not by its name.</p>
+<a class="btn" href="https://github.com/mohamed-elshamy-ai/wheredidit">View on GitHub</a><a class="btn alt" href="#install">Install</a>
+<p class="mut" style="margin-top:16px">Open source &middot; MIT license &middot; early release v0.1.0</p></div></header>
+<main class="wrap">
+<section><h2>What it does</h2><p>WhereDidItGo reads the files in folders you choose, including scanned pages and photos (with OCR if tesseract is installed), and stores the text in a database on your computer. You then ask in your own words, for example the file that had a comparison of internet company prices, and it shows the best files, the page or sheet, and why it picked them. It matches words, word forms and a small synonym list. It does not understand meaning yet.</p></section>
+<section><div class="grid"><div class="card"><b>Searches inside files</b><div class="mut">PDF, Word, Excel, PowerPoint, text, photos and scanned PDFs.</div></div><div class="card"><b>Says why</b><div class="mut">Shows matched words and the page, slide or row.</div></div><div class="card"><b>Arabic and English</b><div class="mut">Handles Arabic forms like الإيرادات and Arabic digits.</div></div><div class="card"><b>Date words</b><div class="mut">last week, yesterday, امبارح, الشهر اللي فات.</div></div><div class="card"><b>Local only</b><div class="mut">SQLite on your computer. No cloud, no account.</div></div></div></section>
+<section><h2>Examples</h2><h3>Real output from the demo files in the repo</h3><pre><code>OCTOBER 12
+  10:30 AM  Created Graduation_Project.pdf   (/tmp/tcwork)
+  11:15 AM  Created architecture.py   (/tmp/tcwork)
+  12:00 PM  Created meeting_notes.docx   (/tmp/tcwork)
+  02:00 PM  Created project_presentation.pptx   (/tmp/tcwork)</code></pre></section>
+
+<section id="install"><h2>Install</h2><div class="os">
+<div class="card"><h3>Windows</h3><div class="mut">Install Python 3.9+ from python.org (tick "Add python.exe to PATH"), then in PowerShell:</div>
+<pre><code>py -m pip install git+https://github.com/mohamed-elshamy-ai/wheredidit
+py -m pip install .
+wheredidit add $HOME\Documents
+wheredidit find &quot;your description&quot;</code></pre><div><span class="mut"><b>Untested.</b></span> Should work. Only tested on Linux. OCR needs tesseract installed.</div></div>
+<div class="card"><h3>macOS</h3><div class="mut">Python 3.9+ (<code>brew install python</code> or python.org), then in Terminal:</div>
+<pre><code>python3 -m pip install git+https://github.com/mohamed-elshamy-ai/wheredidit
+pip install .
+wheredidit add ~/Documents
+wheredidit find &quot;your description&quot;</code></pre><div><span class="mut"><b>Untested.</b></span> Should work. Only tested on Linux. OCR needs tesseract (brew install tesseract).</div></div>
+<div class="card"><h3>Linux</h3><div class="mut">Python 3.9+ is usually installed. In a terminal:</div>
+<pre><code>python3 -m pip install --user git+https://github.com/mohamed-elshamy-ai/wheredidit
+pip install .
+wheredidit add ~/Documents
+wheredidit find &quot;your description&quot;</code></pre><div><span class="ok"><b>Tested.</b></span> Tested on Linux (Python 3.10) with tesseract.</div></div>
+<div class="card"><h3>Android</h3><div><span class="no"><b>Not available.</b></span> Not available. It needs to read your folders, and a website cannot.</div></div>
+</div></section>
+<section><h2>How it works</h2><ol><li>You add folders. Each file is split into passages (page, slide, sheet row).</li><li>Scanned pages and photos go through OCR (the free tesseract program).</li><li>Words are normalised: stop words removed, word forms reduced, Arabic spelling unified, synonyms grouped.</li><li>Your question gets the same treatment and is matched with SQLite full-text search (bm25), plus a coverage score and a file-name bonus.</li><li>Results show the best passage per file and why it matched.</li></ol>
+<div class="card rtl"><b>الشرح بالعربي</b><p>بتضيف الفولدرات، والأداة بتقرا محتوى كل ملف وبتقسمه لأجزاء، وبتعمل OCR للصور والملفات المصورة لو tesseract متسطب. بعدين بتخزن النص في قاعدة بيانات على جهازك بعد ما توحد الكلمات (شيل الكلمات الزيادة وأصل الكلمة والمرادفات). لما تسأل بجملة عادية بتعمل نفس الحاجة وتدور على أقرب الأجزاء وتوريك الصفحة وسبب الاختيار. مفيش نموذج ذكاء اصطناعي، فلازم وصفك يشارك الملف في كلمات.</p></div></section>
+<section><h2>Honest limits</h2><div class="card warn"><ul><li>No meaning-based search: no embeddings. A file that says support vector machine will not match a question that says SVM.</li><li>The synonym list is small and hand-made.</li><li>OCR needs tesseract installed (and the Arabic data for Arabic text). Handwriting is poor.</li><li>Command line only for now. No window app, no audio.</li><li>watch checks by polling every 30 seconds.</li></ul></div></section>
+</main>
+<footer><img src="author.jpg" alt="Mohamed Elshamy" width="64" height="64">Built by <a href="https://github.com/mohamed-elshamy-ai">Mohamed Elshamy</a>. Issues and pull requests are welcome on <a href="https://github.com/mohamed-elshamy-ai/wheredidit">GitHub</a>.</footer>
+</body></html>

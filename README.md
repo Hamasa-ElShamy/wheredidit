@@ -49,7 +49,7 @@ Date words work in the question: `last week`, `yesterday`, `last month`, `امب
 
 ## What it does NOT do (honest)
 
-- It matches words and word forms plus a small hand-made synonym list (about 23 groups, English and Arabic). It does **not** understand meaning. There are no embeddings. "SVM" does not find a file that only says "support vector machine" (the test files show this on purpose).
+- It matches words and word forms plus a small hand-made synonym list (23 groups, English and Arabic). It does **not** understand meaning. There are no embeddings. "SVM" does not find a file that only says "support vector machine" (the test files show this on purpose).
 - Your answer must share words with the file. "The file with the thing about the lecture" will not work.
 - OCR quality depends on the image. Handwriting is poor.
 - Audio is not supported. There is no window app yet, only the command line.

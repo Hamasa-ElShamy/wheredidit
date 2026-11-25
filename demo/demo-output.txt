@@ -8,7 +8,10 @@ $ wheredidit find "the file that had a comparison of internet company prices"
    "Broadband provider comparison for the office Provider A: 200 GB at 450 EGP per month Provider B: unlimited at 600 EGP per month Provider C: 100 GB at 300 EGP pe"
 
 $ wheredidit find "the picture of the whiteboard with the SVM formula"
-No match. Nothing in the indexed files fits that description (try other words; the tool matches words and word forms, not full meaning).
+1. IMG_2231.png   (modified 2026-11-25)
+   /home/sandbox/wheredidit/demo/files/IMG_2231.png
+   Why: matched 1 of 3 words (svm) in image text (OCR)
+   "SVM: maximize margin = 2 / ||w]|"
 
 $ wheredidit find "table of student grades"
 1. Book1.xlsx   (modified 2026-11-25)
