@@ -32,11 +32,20 @@ h1{font-size:3.4rem;margin:0 0 8px;color:#ea580c}.tag{font-size:1.25rem;color:#6
 <main class="wrap">
 <section><h2>What it does</h2><p>WhereDidItGo reads the files in folders you choose, including scanned pages and photos (with OCR if tesseract is installed), and stores the text in a database on your computer. You then ask in your own words, for example the file that had a comparison of internet company prices, and it shows the best files, the page or sheet, and why it picked them. It matches words, word forms and a small synonym list. It does not understand meaning yet.</p></section>
 <section><div class="grid"><div class="card"><b>Searches inside files</b><div class="mut">PDF, Word, Excel, PowerPoint, text, photos and scanned PDFs.</div></div><div class="card"><b>Says why</b><div class="mut">Shows matched words and the page, slide or row.</div></div><div class="card"><b>Arabic and English</b><div class="mut">Handles Arabic forms like الإيرادات and Arabic digits.</div></div><div class="card"><b>Date words</b><div class="mut">last week, yesterday, امبارح, الشهر اللي فات.</div></div><div class="card"><b>Local only</b><div class="mut">SQLite on your computer. No cloud, no account.</div></div></div></section>
-<section><h2>Examples</h2><h3>Real output from the demo files in the repo</h3><pre><code>OCTOBER 12
-  10:30 AM  Created Graduation_Project.pdf   (/tmp/tcwork)
-  11:15 AM  Created architecture.py   (/tmp/tcwork)
-  12:00 PM  Created meeting_notes.docx   (/tmp/tcwork)
-  02:00 PM  Created project_presentation.pptx   (/tmp/tcwork)</code></pre></section>
+<section><h2>Examples</h2><h3>Real output from the demo files in the repo</h3><pre><code>$ wheredidit add demo/files
+indexed 7, unchanged 0, failed 0, removed 0
+
+$ wheredidit find &quot;the file that had a comparison of internet company prices&quot;
+1. doc_0417.pdf   (modified 2026-11-25)
+   /home/sandbox/wheredidit/demo/files/doc_0417.pdf
+   Why: matched 2 of 4 words (comparison, internet) in page 1
+   &quot;Broadband provider comparison for the office Provider A: 200 GB at 450 EGP per month Provider B: unlimited at 600 EGP per month Provider C: 100 GB at 300 EGP pe&quot;
+
+$ wheredidit find &quot;the picture of the whiteboard with the SVM formula&quot;
+1. IMG_2231.png   (modified 2026-11-25)
+   /home/sandbox/wheredidit/demo/files/IMG_2231.png
+   Why: matched 1 of 3 words (svm) in image text (OCR)
+   &quot;SVM: maximize margin = 2 / ||w]|&quot;</code></pre></section>
 
 <section id="install"><h2>Install</h2><div class="os">
 <div class="card"><h3>Windows</h3><div class="mut">Install Python 3.9+ from python.org (tick "Add python.exe to PATH"), then in PowerShell:</div>
