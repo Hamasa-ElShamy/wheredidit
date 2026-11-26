@@ -83,20 +83,27 @@ def extract(path):
                 if cells:
                     out.append((f"sheet {ws.title} row {ri}", " | ".join(cells)))
     elif ext == ".pdf":
-        import pymupdf
-        with pymupdf.open(str(p)) as doc:
-            for n, page in enumerate(doc, 1):
-                text = page.get_text()
+        import pypdfium2 as pdfium
+        doc = pdfium.PdfDocument(str(p))
+        try:
+            for n in range(len(doc)):
+                page = doc[n]
+                tp = page.get_textpage()
+                text = tp.get_text_range()
+                tp.close()
                 if len(text.strip()) < 20 and ocr_langs():  # looks scanned
                     with tempfile.TemporaryDirectory() as td:
                         img = Path(td) / "p.png"
-                        page.get_pixmap(dpi=200).save(str(img))
+                        page.render(scale=200 / 72).to_pil().save(str(img))  # 200 dpi
                         text = ocr_image(img)
-                    where = f"page {n} (OCR)"
+                    where = f"page {n + 1} (OCR)"
                 else:
-                    where = f"page {n}"
+                    where = f"page {n + 1}"
                 for c in _chunks(text):
                     out.append((where, c))
+                page.close()
+        finally:
+            doc.close()
     elif ext in IMAGES:
         text = ocr_image(p)
         for c in _chunks(text):

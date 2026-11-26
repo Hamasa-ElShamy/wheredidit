@@ -6,6 +6,9 @@ Find a file by what was inside it, not by its name. Everything runs on your comp
 
 لاقي الملف بمحتواه مش باسمه. كل حاجة بتشتغل على جهازك.
 
+
+PDF reading uses [pypdfium2](https://github.com/pypdfium2-team/pypdfium2) (Apache-2.0 / BSD, PDFium). No AGPL code is installed.
+
 ## Worked example
 
 Folder: [`demo/files/`](demo/files) (a PDF named `doc_0417.pdf`, a photo `IMG_2231.png` of an SVM formula, a scanned bill `scan.pdf`, an Excel sheet `Book1.xlsx`, a Word file, a PowerPoint, an Arabic note). Real output, see [`demo/demo-output.txt`](demo/demo-output.txt):
