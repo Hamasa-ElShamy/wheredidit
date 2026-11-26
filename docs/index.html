@@ -46,10 +46,54 @@ h1{font-family:var(--head);font-size:clamp(2.1rem,8.5vw,3.4rem);overflow-wrap:br
 .langtoggle{display:inline-flex;gap:4px;margin:0 0 14px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px}
 .langtoggle button{border:0;background:transparent;color:var(--mut);font:inherit;font-weight:600;min-height:44px;padding:8px 20px;border-radius:99px;cursor:pointer;transition:background .2s var(--ease-out),color .2s var(--ease-out)}
 .langtoggle button[aria-pressed="true"]{background:var(--acc);color:var(--accfg)}
+
+/* redesign: search-first */
+header.hero{background:radial-gradient(900px 420px at 80% -10%,#ffd9b0 0,transparent 70%),var(--bg);text-align:start;padding:60px 0 44px}
+.hero .wrap{max-width:900px}
+.hero h1{font-size:clamp(2.4rem,8vw,4.4rem);line-height:1;letter-spacing:-.02em;margin:0 0 10px;font-weight:800}
+.hero h1 span{color:var(--acc);font-style:italic}
+.hero .tag{font-size:1.2rem;max-width:34rem;margin:0 0 26px;color:#5b4430;text-align:start}
+.finder{background:#fff;border:2px solid var(--fg);border-radius:999px;display:flex;align-items:center;gap:12px;padding:8px 10px 8px 22px;box-shadow:0 10px 0 var(--fg);max-width:640px;margin:0 0 30px;min-height:64px}
+.finder .q{flex:1;font:500 1.05rem 'Sora',sans-serif;min-height:1.5em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.finder .q:after{content:"";display:inline-block;width:2px;height:1.1em;background:var(--acc);vertical-align:-.2em;margin-inline-start:2px;animation:blink 1s steps(2) infinite}
+.finder .go{width:48px;height:48px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-size:1.3rem;flex:none}
+.results{max-width:640px;display:grid;gap:10px}
+.res{display:grid;grid-template-columns:auto 1fr;gap:14px;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:12px 16px;align-items:center;transition:transform .35s var(--ease-out),opacity .35s var(--ease-out)}
+.res.hide{opacity:0;transform:translateY(8px)}
+.badge2{font:700 .72rem 'Sora',sans-serif;letter-spacing:.06em;background:var(--fg);color:#ffe9d2;border-radius:10px;padding:8px 10px;min-width:48px;text-align:center}
+.res b{display:block;font-size:1rem}.res .why{font-size:.88rem;color:var(--mut)}
+.res mark{background:#ffd9b0;color:var(--fg);border-radius:4px;padding:0 3px}
+.hero .btnrow{margin-top:26px}
+@keyframes blink{50%{opacity:0}}
+main section>h2{font-size:2rem;font-weight:800;position:relative;display:inline-block}
+main section>h2:after{content:"";position:absolute;inset-inline:-4px;bottom:-2px;height:.4em;background:#ffd9b0;z-index:-1;border-radius:99px}
+main section{padding:34px 0}
+.grid .card{border-radius:26px;border:1.5px solid var(--fg)}
+.grid .card b{font-family:var(--head);font-size:1.15rem}
+@media (max-width:640px){.finder{box-shadow:0 6px 0 var(--fg);padding-left:16px}.hero{padding-top:40px}}
+@media (prefers-reduced-motion:reduce){.finder .q:after{animation:none}}
 </style></head><body>
-<header class="hero"><div class="wrap"><h1>WhereDidItGo</h1><p class="tag">Find a file by what was inside it, not by its name.</p>
-<a class="btn" href="https://github.com/mohamed-elshamy-ai/wheredidit">View on GitHub</a><a class="btn alt" href="#install">Install</a>
-<p class="mut" style="margin-top:16px">Open source &middot; MIT license &middot; early release v0.1.0</p></div></header>
+<header class="hero"><div class="wrap"><h1>Find the file by what was <span>inside</span> it.</h1><p class="tag">Describe it in your own words, in Arabic or English. WhereDidItGo searches the text inside your files, on your computer, and shows why each file matched.</p>
+<div class="finder" role="img" aria-label="Example search box"><div class="q" id="q">the file that had a comparison of internet company prices</div><div class="go" aria-hidden="true">&rarr;</div></div>
+<div class="results" id="results" aria-live="off"><div class="res"><span class="badge2">PDF</span><div><b>doc_0417.pdf</b><span class="why">matched 2 of 4 words: <mark>comparison</mark>, <mark>internet</mark> &middot; page 1</span></div></div></div>
+<div class="btnrow"><a class="btn" href="https://github.com/mohamed-elshamy-ai/wheredidit">View on GitHub</a><a class="btn alt" href="#install">Install</a></div>
+<p class="mut" style="margin-top:16px">Open source &middot; MIT license &middot; early release v0.1.0 &middot; examples above are real output from the demo files in the repo</p></div></header>
+<script>
+(function(){
+ var ex=[
+  {q:"the file that had a comparison of internet company prices",b:"PDF",f:"doc_0417.pdf",w:"matched 2 of 4 words: <mark>comparison</mark>, <mark>internet</mark> \u00b7 page 1"},
+  {q:"the picture of the whiteboard with the SVM formula",b:"PNG",f:"IMG_2231.png",w:"matched 1 of 3 words: <mark>svm</mark> \u00b7 image text (OCR)"},
+  {q:"\u0639\u0627\u064a\u0632 \u0627\u0644\u0645\u0644\u0641 \u0628\u062a\u0627\u0639 \u0632\u064a\u0627\u062f\u0629 \u0633\u0639\u0631 \u0627\u0644\u0627\u0634\u062a\u0631\u0627\u0643",b:"MD",f:"\u0645\u0644\u0627\u062d\u0638\u0627\u062a.md",w:"matched 3 of 4 words \u00b7 part 1"}];
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+ var q=document.getElementById('q'),r=document.getElementById('results'),i=0;
+ function show(){var e=ex[i%ex.length];q.textContent='';q.dir=/[\u0600-\u06FF]/.test(e.q)?'rtl':'ltr';
+  var n=0,t=setInterval(function(){n++;q.textContent=e.q.slice(0,n);if(n>=e.q.length){clearInterval(t);
+   r.innerHTML='<div class="res hide"><span class="badge2">'+e.b+'</span><div><b></b><span class="why">'+e.w+'</span></div></div>';
+   r.querySelector('b').textContent=e.f;requestAnimationFrame(function(){r.firstChild.classList.remove('hide')});
+   i++;setTimeout(show,3200);}},38);}
+ setTimeout(function(){r.innerHTML='';i=1;show();},2600);
+})();
+</script>
 <main class="wrap">
 <section><div class="grid"><div class="card"><b>Searches inside files</b><div class="mut">PDF, Word, Excel, PowerPoint, text, photos and scanned PDFs.</div></div><div class="card"><b>Says why</b><div class="mut">Shows matched words and the page, slide or row.</div></div><div class="card"><b>Arabic and English</b><div class="mut">Handles Arabic forms like الإيرادات and Arabic digits.</div></div><div class="card"><b>Date words</b><div class="mut">last week, yesterday, امبارح, الشهر اللي فات.</div></div><div class="card"><b>Local only</b><div class="mut">SQLite on your computer. No cloud, no account.</div></div></div></section>
 <section><h2>What it does</h2><p>It indexes the text inside your files (with OCR for scans and photos) into a local database, then matches your own words against it and shows the best files with the page or row and why it picked them.</p></section>
@@ -85,7 +129,7 @@ wheredidit find &quot;your description&quot;</code></pre><div><span class="mut">
 pip install .
 wheredidit add ~/Documents
 wheredidit find &quot;your description&quot;</code></pre><div><span class="ok"><b>Tested.</b></span> Tested on Linux (Python 3.10) with tesseract.</div></div>
-<div class="card"><h3>Android</h3><div><span class="no"><b>Not available.</b></span> Not available. It needs to read your folders, and a website cannot.</div></div>
+<div class="card"><h3>Android</h3><div><span class="no"><b>Not available.</b></span> It needs to read your folders, and a website cannot.</div></div>
 </div></section>
 <section class="how-section"><h2><span class="lang-en">How it works</span><span class="lang-ar" hidden>إزاي بيشتغل</span></h2><div class="langtoggle" role="group" aria-label="Language / اللغة"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="ar" aria-pressed="false">العربية</button></div><div class="lang-en"><ol><li>You add folders. Each file is split into passages (page, slide, sheet row).</li><li>Scanned pages and photos go through OCR (the free tesseract program).</li><li>Words are normalised: stop words removed, word forms reduced, Arabic spelling unified, synonyms grouped.</li><li>Your question gets the same treatment and is matched with SQLite full-text search (bm25), plus a coverage score and a file-name bonus.</li><li>Results show the best passage per file and why it matched.</li></ol>
 </div><div class="card lang-ar" dir="rtl" lang="ar" style="text-align:start"><b>الشرح بالعربي</b><p>بتضيف الفولدرات، والأداة بتقرا محتوى كل ملف وبتقسمه لأجزاء، وبتعمل OCR للصور والملفات المصورة لو tesseract متسطب. بعدين بتخزن النص في قاعدة بيانات على جهازك بعد ما توحد الكلمات (شيل الكلمات الزيادة وأصل الكلمة والمرادفات). لما تسأل بجملة عادية بتعمل نفس الحاجة وتدور على أقرب الأجزاء وتوريك الصفحة وسبب الاختيار. مفيش نموذج ذكاء اصطناعي، فلازم وصفك يشارك الملف في كلمات.</p></div></section>
