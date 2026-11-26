@@ -41,6 +41,11 @@ h1{font-family:var(--head);font-size:clamp(2.1rem,8.5vw,3.4rem);overflow-wrap:br
 .card{transition:border-color .25s var(--ease-out),transform .25s var(--ease-out)}
 .card:hover{border-color:var(--acc);transform:translateY(-2px)}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* language toggle */
+.langtoggle{display:inline-flex;gap:4px;margin:0 0 14px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px}
+.langtoggle button{border:0;background:transparent;color:var(--mut);font:inherit;font-weight:600;min-height:44px;padding:8px 20px;border-radius:99px;cursor:pointer;transition:background .2s var(--ease-out),color .2s var(--ease-out)}
+.langtoggle button[aria-pressed="true"]{background:var(--acc);color:var(--accfg)}
 </style></head><body>
 <header class="hero"><div class="wrap"><h1>WhereDidItGo</h1><p class="tag">Find a file by what was inside it, not by its name.</p>
 <a class="btn" href="https://github.com/mohamed-elshamy-ai/wheredidit">View on GitHub</a><a class="btn alt" href="#install">Install</a>
@@ -82,9 +87,24 @@ wheredidit add ~/Documents
 wheredidit find &quot;your description&quot;</code></pre><div><span class="ok"><b>Tested.</b></span> Tested on Linux (Python 3.10) with tesseract.</div></div>
 <div class="card"><h3>Android</h3><div><span class="no"><b>Not available.</b></span> Not available. It needs to read your folders, and a website cannot.</div></div>
 </div></section>
-<section><h2>How it works</h2><ol><li>You add folders. Each file is split into passages (page, slide, sheet row).</li><li>Scanned pages and photos go through OCR (the free tesseract program).</li><li>Words are normalised: stop words removed, word forms reduced, Arabic spelling unified, synonyms grouped.</li><li>Your question gets the same treatment and is matched with SQLite full-text search (bm25), plus a coverage score and a file-name bonus.</li><li>Results show the best passage per file and why it matched.</li></ol>
-<div class="card" dir="rtl" lang="ar" style="text-align:start"><b>الشرح بالعربي</b><p>بتضيف الفولدرات، والأداة بتقرا محتوى كل ملف وبتقسمه لأجزاء، وبتعمل OCR للصور والملفات المصورة لو tesseract متسطب. بعدين بتخزن النص في قاعدة بيانات على جهازك بعد ما توحد الكلمات (شيل الكلمات الزيادة وأصل الكلمة والمرادفات). لما تسأل بجملة عادية بتعمل نفس الحاجة وتدور على أقرب الأجزاء وتوريك الصفحة وسبب الاختيار. مفيش نموذج ذكاء اصطناعي، فلازم وصفك يشارك الملف في كلمات.</p></div></section>
+<section class="how-section"><h2><span class="lang-en">How it works</span><span class="lang-ar" hidden>إزاي بيشتغل</span></h2><div class="langtoggle" role="group" aria-label="Language / اللغة"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="ar" aria-pressed="false">العربية</button></div><div class="lang-en"><ol><li>You add folders. Each file is split into passages (page, slide, sheet row).</li><li>Scanned pages and photos go through OCR (the free tesseract program).</li><li>Words are normalised: stop words removed, word forms reduced, Arabic spelling unified, synonyms grouped.</li><li>Your question gets the same treatment and is matched with SQLite full-text search (bm25), plus a coverage score and a file-name bonus.</li><li>Results show the best passage per file and why it matched.</li></ol>
+</div><div class="card lang-ar" dir="rtl" lang="ar" style="text-align:start"><b>الشرح بالعربي</b><p>بتضيف الفولدرات، والأداة بتقرا محتوى كل ملف وبتقسمه لأجزاء، وبتعمل OCR للصور والملفات المصورة لو tesseract متسطب. بعدين بتخزن النص في قاعدة بيانات على جهازك بعد ما توحد الكلمات (شيل الكلمات الزيادة وأصل الكلمة والمرادفات). لما تسأل بجملة عادية بتعمل نفس الحاجة وتدور على أقرب الأجزاء وتوريك الصفحة وسبب الاختيار. مفيش نموذج ذكاء اصطناعي، فلازم وصفك يشارك الملف في كلمات.</p></div></section>
 <section><h2>Honest limits</h2><div class="card warn"><ul><li>No meaning-based search: no embeddings. A file that says support vector machine will not match a question that says SVM.</li><li>The synonym list is small and hand-made.</li><li>OCR needs tesseract installed (and the Arabic data for Arabic text). Handwriting is poor.</li><li>Command line only for now. No window app, no audio.</li><li>watch checks by polling every 30 seconds.</li></ul></div></section>
 </main>
 <footer>Built by <a href="https://github.com/mohamed-elshamy-ai">Mohamed Elshamy</a>. Issues and pull requests are welcome on <a href="https://github.com/mohamed-elshamy-ai/wheredidit">GitHub</a>.</footer>
-</body></html>
+<script>
+(function(){
+ var KEY='site-lang';
+ function apply(lang){
+  document.querySelectorAll('.lang-en').forEach(function(e){e.hidden=lang!=='en'});
+  document.querySelectorAll('.lang-ar').forEach(function(e){e.hidden=lang!=='ar'});
+  document.querySelectorAll('.langtoggle button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===lang?'true':'false')});
+  document.querySelectorAll('.how-section').forEach(function(s){s.dir=lang==='ar'?'rtl':'ltr'});
+  try{localStorage.setItem(KEY,lang)}catch(e){}
+ }
+ var def=(navigator.language||'en').toLowerCase().indexOf('ar')===0?'ar':'en';
+ var saved=null; try{saved=localStorage.getItem(KEY)}catch(e){}
+ apply(saved||def);
+ document.querySelectorAll('.langtoggle button').forEach(function(b){b.addEventListener('click',function(){apply(b.dataset.lang)})});
+})();
+</script></body></html>
