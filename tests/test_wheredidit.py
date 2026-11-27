@@ -79,7 +79,7 @@ def test_html_indexed_and_bad_files_explained(tmp_path):
     (tmp_path / "f.html").write_text("<html><body><script>var x=1</script><p>Pizza size small medium large</p></body></html>")
     (tmp_path / "e.docx").write_bytes(b"")
     (tmp_path / "x.bin").write_bytes(b"abc")
-    ix = Index(str(tmp_path / "i.db"))
+    ix = Index(str(tmp_path.parent / (tmp_path.name + "_i.db")))
     r = ix.add_folder(tmp_path)
     assert r["indexed"] == 1 and r["error"] == 1 and ix.skipped == {".bin": 1}
     assert ix.search("pizza size")[0]["path"].endswith("f.html")
