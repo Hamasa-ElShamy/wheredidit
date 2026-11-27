@@ -1,6 +1,6 @@
 # WhereDidItGo
 
-[![tests](https://github.com/Hamasa-ElShamy/wheredidit/actions/workflows/tests.yml/badge.svg)](https://github.com/Hamasa-ElShamy/wheredidit/actions/workflows/tests.yml) ![tests: 10 passing](https://img.shields.io/badge/tests-10%20passing-brightgreen) ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
+[![tests](https://github.com/hamasa-lshmn/wheredidit/actions/workflows/tests.yml/badge.svg)](https://github.com/hamasa-lshmn/wheredidit/actions/workflows/tests.yml) ![tests: 10 passing](https://img.shields.io/badge/tests-10%20passing-brightgreen) ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
 
 Find a file by what was inside it, not by its name. Everything runs on your computer: no cloud, no account, no AI service.
 
@@ -35,7 +35,7 @@ The PDF was found although its name says nothing: "internet" matched "Broadband"
 ## Install and use
 
 ```
-git clone https://github.com/Hamasa-ElShamy/wheredidit && cd wheredidit
+git clone https://github.com/hamasa-lshmn/wheredidit && cd wheredidit
 pip install .
 wheredidit add ~/Documents          # index a folder (re-run to pick up changes)
 wheredidit find "invoice from the electricity company last month"
