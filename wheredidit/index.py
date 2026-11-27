@@ -13,6 +13,15 @@ def default_db():
     return os.environ.get("WHEREDIDITGO_DB", str(Path.home() / ".wheredidit.db"))
 
 
+def _friendly(p, e):
+    name = type(e).__name__
+    if p.stat().st_size == 0: return "the file is empty"
+    if name in ("PackageNotFoundError", "BadZipFile", "KeyError") and p.suffix.lower() in (".docx", ".xlsx", ".pptx"):
+        return f"not a valid {p.suffix.lower()} file (damaged, or another format saved with this extension)"
+    if name == "PdfiumError": return "the PDF is damaged or password protected"
+    return f"{name}: {e}"
+
+
 class Index:
     def __init__(self, path=None):
         self.db = sqlite3.connect(path or default_db())
@@ -36,7 +45,7 @@ class Index:
         try:
             passages = extract(p)
         except Exception as e:
-            passages, err = [], f"{type(e).__name__}: {e}"
+            passages, err = [], _friendly(p, e)
         # file name is searchable too
         passages = [("file name", p.stem.replace("_", " ").replace("-", " "))] + passages
         for loc, text in passages:
@@ -62,11 +71,15 @@ class Index:
         folder = Path(folder).resolve()
         self.db.execute("INSERT OR IGNORE INTO roots VALUES (?)", (str(folder),))
         res = {"indexed": 0, "unchanged": 0, "error": 0, "removed": 0}
+        self.skipped = {}
         seen = set()
         for p in sorted(folder.rglob("*")):
-            if p.is_file() and p.suffix.lower() in SUPPORTED and not any(x.startswith(".") for x in p.relative_to(folder).parts):
-                seen.add(str(p))
-                res[self.add_file(p)] += 1
+            if p.is_file() and not any(x.startswith(".") for x in p.relative_to(folder).parts):
+                if p.suffix.lower() in SUPPORTED:
+                    seen.add(str(p))
+                    res[self.add_file(p)] += 1
+                else:
+                    k = p.suffix.lower() or "(no extension)"; self.skipped[k] = self.skipped.get(k, 0) + 1
         for (path,) in self.db.execute("SELECT path FROM files WHERE path LIKE ?", (str(folder) + "/%",)).fetchall():
             if path not in seen and not Path(path).exists():
                 self.remove_file(path)
@@ -121,6 +134,6 @@ class Index:
                 best[path] = {"path": path, "loc": loc, "text": text, "score": score, "hit": hit, "terms": terms, "mtime": mt}
         out = sorted(best.values(), key=lambda r: -r["score"])[:limit]
         for r in out:
-            r["reason"] = f"matched {len(r['hit'])} of {len(r['terms'])} words ({', '.join(r['hit'])}) in {r['loc']}"
+            r["reason"] = ("weak match: " if len(r["hit"]) * 2 < len(r["terms"]) else "") + f"matched {len(r['hit'])} of {len(r['terms'])} words ({', '.join(r['hit'])}) in {r['loc']}"
             r["date_filter"] = since is not None
         return out

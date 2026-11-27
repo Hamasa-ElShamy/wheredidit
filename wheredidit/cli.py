@@ -31,7 +31,9 @@ def main(argv=None):
     sub.add_parser("status")
     w = sub.add_parser("watch", help="keep the index up to date"); w.add_argument("--every", type=int, default=30)
     args = ap.parse_args(argv)
-    ix = Index(args.db)
+    try: ix = Index(args.db)
+    except Exception as e:
+        print(f"wheredidit: cannot open the index database: {e}", file=sys.stderr); return 2
     if args.cmd == "add":
         if not Path(args.folder).is_dir():
             print("Not a folder:", args.folder); return 2
@@ -39,10 +41,15 @@ def main(argv=None):
         print(f"indexed {r['indexed']}, unchanged {r['unchanged']}, failed {r['error']}, removed {r['removed']}")
         for p, e in ix.stats()["errors"]:
             print("  could not read:", p, "-", e)
+        if getattr(ix, "skipped", None):
+            print("  skipped (type not supported): " + ", ".join(f"{n} {k}" for k, n in sorted(ix.skipped.items(), key=lambda x: -x[1])[:8]))
     elif args.cmd == "update":
         print(ix.update())
     elif args.cmd == "find":
-        return _show(ix.search(" ".join(args.query), limit=args.n))
+        q = " ".join(args.query).strip()
+        if not q:
+            print("wheredidit: say what you remember about the file, for example: wheredidit find \"invoice from the electricity company\"", file=sys.stderr); return 2
+        return _show(ix.search(q, limit=args.n))
     elif args.cmd == "status":
         st = ix.stats(); print(f"{st['files']} files, {st['passages']} passages")
     elif args.cmd == "watch":

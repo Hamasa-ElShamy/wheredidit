@@ -5,7 +5,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-SUPPORTED = {".pdf", ".docx", ".xlsx", ".pptx", ".txt", ".md", ".csv",
+SUPPORTED = {".pdf", ".docx", ".xlsx", ".pptx", ".txt", ".md", ".csv", ".html", ".htm",
              ".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"}
 IMAGES = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"}
 _SPLIT = re.compile(r"(?<=[.!?؟])\s+|\n+")
@@ -52,7 +52,21 @@ def extract(path):
     p = Path(path)
     ext = p.suffix.lower()
     out = []
-    if ext in (".txt", ".md", ".csv"):
+    if ext in (".html", ".htm"):
+        from html.parser import HTMLParser
+        class _H(HTMLParser):
+            def __init__(self):
+                super().__init__(convert_charrefs=True); self.t = []; self.skip = 0
+            def handle_starttag(self, tag, a):
+                if tag in ("script", "style"): self.skip += 1
+                elif tag in ("p", "div", "li", "br", "tr", "h1", "h2", "h3", "label"): self.t.append("\n")
+            def handle_endtag(self, tag):
+                if tag in ("script", "style") and self.skip: self.skip -= 1
+            def handle_data(self, d):
+                if not self.skip: self.t.append(d)
+        h = _H(); h.feed(p.read_text(encoding="utf-8", errors="replace"))
+        for i, c in enumerate(_chunks("".join(h.t)), 1): out.append((f"section {i}", c))
+    elif ext in (".txt", ".md", ".csv"):
         for i, chunk in enumerate(_chunks(p.read_text(encoding="utf-8", errors="replace")), 1):
             out.append((f"part {i}", chunk))
     elif ext == ".docx":
