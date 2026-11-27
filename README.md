@@ -1,6 +1,6 @@
 # WhereDidItGo
 
-[![tests](https://github.com/mohamed-elshamy-ai/wheredidit/actions/workflows/tests.yml/badge.svg)](https://github.com/mohamed-elshamy-ai/wheredidit/actions/workflows/tests.yml) ![tests: 9 passing](https://img.shields.io/badge/tests-9%20passing-brightgreen) ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
+[![tests](https://github.com/mohamed-elshamy-ai/wheredidit/actions/workflows/tests.yml/badge.svg)](https://github.com/mohamed-elshamy-ai/wheredidit/actions/workflows/tests.yml) ![tests: 10 passing](https://img.shields.io/badge/tests-10%20passing-brightgreen) ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
 
 Find a file by what was inside it, not by its name. Everything runs on your computer: no cloud, no account, no AI service.
 
